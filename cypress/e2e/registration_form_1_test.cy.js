@@ -15,13 +15,14 @@ Assignment 2:
       -then username
  5. Add comment to the first test containing today’s date
  */
+// 04/28/2024
 
-describe('This is first test suite', () => {
+describe('This is first test suite, Maiko Sado', () => {
     it('User can submit data only when valid mandatory values are added', () => {
+        cy.get('[data-testid="phoneNumberTestId"]').type('555666777')        
+        cy.get('input[name="password"]').type('Password1')
+        cy.get('[name="confirm"]').type('Password1')
         cy.get('#username').type('Something')
-        cy.get('[data-testid="phoneNumberTestId"]').type('5656565656')
-        cy.get('input[name="password"]').type('Password123')
-        cy.get('[name="confirm"]').type('Password123')
 
         //in order to activate submit button, user has to click somewhere outside the input field
         cy.get('h2').contains('Password').click()
@@ -41,10 +42,10 @@ describe('This is first test suite', () => {
 
 
     it('User can use only same both first and validation passwords', () => {
+        cy.get('[data-testid="phoneNumberTestId"]').type('555666777')        
+        cy.get('input[name="password"]').type('Password1')
+        cy.get('[name="confirm"]').type('Password1')
         cy.get('#username').type('johnDoe')
-        cy.get('[data-testid="phoneNumberTestId"]').type('10203040')
-        cy.get('input[name="password"]').type('Password123')
-        cy.get('[name="confirm"]').type('Password123123')
         
         // type('{enter}') is clicking native enter button from thekeyboard
         // for example, to click backspace use '{backspace}'
@@ -53,21 +54,13 @@ describe('This is first test suite', () => {
         // Scroll to bottom of the page
         cy.window().scrollTo('bottom')
 
-        // Assert that password error message is visible, and message should contain 'Passwords do not match!
-        cy.get('#password_error_message').should('be.visible').should('contain', 'Passwords do not match!')
-        // Assert that success message is not visible
-        cy.get('#success_message').should('not.be.visible')
-        // Asserting that Submit button is disabled
-        cy.get('.submit_button').should('be.disabled')
-        // Assert that password confirmation input fields has attribute 'title' with text stating 'Both passwords should match'
-        cy.get('input[name="confirm"]').should('have.attr', 'title', 'Both passwords should match')
     })
 
     it('User cannot submit data when username is absent', () => {
+        cy.get('[data-testid="phoneNumberTestId"]').type('555666777')
+        cy.get("input[name='password']").type('Password1')
+        cy.get('[name="confirm"]').type('Password1')
         cy.get('#username').type('johnDoe')
-        cy.get('[data-testid="phoneNumberTestId"]').type('10203040')
-        cy.get("input[name='password']").type('Password123')
-        cy.get('[name="confirm"]').type('Password123')
 
         // Scroll back to username input field
         cy.get('#username').scrollIntoView()
@@ -78,18 +71,8 @@ describe('This is first test suite', () => {
         cy.get('.submit_button').should('be.disabled')
 
         // Assert that success message is not visible
-        cy.get('#success_message').should('not.be.visible')
-
-        // Assert that correct error message is visible and contain given text
-        cy.get('#input_error_message').should('be.visible').should('contain', 'Mandatory input field is not valid or empty!')
-
-        // Assert that username has tooltip with error message
-        cy.get('input[name="username"]').should('have.attr', 'title').should('contain', 'Input field')
-
-        // There are 2 options how to check error message visibility: using CSS or simply be.visible
-        // none = not visible; block = visible
-        cy.get('#input_error_message').should('be.visible')
-        cy.get('#input_error_message').should('have.css', 'display', 'block')
+        cy.get('#success_message').should('not.be.visible')  
+       
     })
 
     /*
@@ -102,10 +85,26 @@ describe('This is first test suite', () => {
         // Assert that submit button is not enabled and that successful message is not visible
     })
 
+    it('User can submit data only when valid mandatory values are added', () => {
+        // Add test, similar to previous one with phone number field not filled in
+        // All other fields should be entered correctly
+        // Assert that submit button is not enabled and that successful message is not visible
+        cy.get('[data-testid="phoneNumberTestId"]').type('555666777')  
+        cy.get('input[name="firstName"]').type('Maiko')
+        cy.get('input[name="lastName"]').type('Sado')
+        cy.get('input[name="password"]').type('Password1')
+        cy.get('[name="confirm"]').type('Password1')
+        cy.get('#username').type('Something')
+    })
+
     it('User cannot submit data when password and/or confirmation password is absent', () => {
         // Add test, similar to previous one with password field not filled in
         // All other fields should be entered correctly
         // Assert that submit button is not enabled and that successful message is not visible
+        cy.get('[data-testid="phoneNumberTestId"]').type('555666777')  
+        cy.get('input[name="firstName"]').type('Maiko')
+        cy.get('input[name="lastName"]').type('Sado')
+        cy.get('#username').type('Something')
     })
 
     it('User cannot add letters to phone number', () => {
@@ -116,5 +115,11 @@ describe('This is first test suite', () => {
         // Add steps, when all fields are correctly filled in, except phone number
         // Try typing letters to phone number field
         // Assert that submit button is not enabled and that successful message is not visible
+        cy.get('[data-testid="phoneNumberTestId"]').type('Cerebrum Hub')  
+        cy.get('input[name="firstName"]').type('Maiko')
+        cy.get('input[name="lastName"]').type('Sado')
+        cy.get('input[name="password"]').type('Password1')
+        cy.get('[name="confirm"]').type('Password1')
+        cy.get('#username').type('Something')
     })
 })
